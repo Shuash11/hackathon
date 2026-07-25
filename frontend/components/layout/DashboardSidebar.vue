@@ -8,7 +8,7 @@ const signingOut = ref(false)
 
 const navigation = [
   { label: 'Dashboard', to: '/dashboard', icon: 'home' as const },
-  { label: 'Products', to: '/products', icon: 'products' as const },
+  { label: 'Products', to: '/dashboard/catalog', icon: 'products' as const },
   { label: 'Categories', to: '/categories', icon: 'categories' as const },
   { label: 'Orders', to: '/dashboard/orders', icon: 'orders' as const },
 ]
@@ -70,7 +70,7 @@ async function handleSignOut(): Promise<void> {
           >
             <DashboardIcon :name="item.icon" class="h-[18px] w-[18px] shrink-0" />
             <span>{{ item.label }}</span>
-            <span v-if="item.to === '/products' || item.to === '/categories'" class="ml-auto rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider" :class="isActive(item.to) ? 'bg-atelier-canvas' : 'bg-white/10 text-white/45'">Soon</span>
+            <span v-if="item.to === '/categories'" class="ml-auto rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider" :class="isActive(item.to) ? 'bg-atelier-canvas' : 'bg-white/10 text-white/45'">Soon</span>
           </NuxtLink>
         </li>
       </ul>

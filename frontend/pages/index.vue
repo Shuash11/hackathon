@@ -1,10 +1,26 @@
+<script setup lang="ts">
+definePageMeta({ layout: false })
+
+useHead({
+  title: 'Scentico - Fragrance, Bottled Slowly',
+  meta: [{ name: 'description', content: 'Small-batch fragrances blended slowly in warm tones of coffee, amber and peach.' }],
+  link: [
+    { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
+    { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,600;1,600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap' },
+  ],
+})
+
+const page = ref<HTMLElement | null>(null)
+const loginOpen = ref(false)
+useScenticoReveal(page)
+</script>
+
 <template>
-  <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28">
-    <div class="max-w-3xl">
-      <p class="mb-4 font-semibold text-brand-600">A clean starting point</p>
-      <h1 class="text-4xl font-bold tracking-tight text-ink sm:text-6xl">Build the idea, not the infrastructure.</h1>
-      <p class="mt-6 text-lg leading-8 text-muted">A secure, modular foundation for the next product your team decides to create.</p>
-      <NuxtLink to="/login" class="mt-8 inline-flex rounded-lg bg-brand-600 px-5 py-3 font-semibold text-white hover:bg-brand-700">Get started</NuxtLink>
-    </div>
-  </section>
+  <div ref="page" class="scentico-page min-h-screen overflow-x-hidden bg-cream font-body leading-relaxed text-espresso antialiased">
+    <ScenticoHeader @open-login="loginOpen = true" />
+    <main><ScenticoHero /><ScenticoAbout /><ScenticoProducts /><ScenticoPromoGallery /><ScenticoContact /></main>
+    <ScenticoFooter @open-login="loginOpen = true" />
+    <ScenticoLoginModal v-model="loginOpen" />
+  </div>
 </template>

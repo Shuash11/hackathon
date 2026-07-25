@@ -40,6 +40,6 @@ async function completeLogin(credential: GoogleCredentialResponse): Promise<void
     <p class="mt-2 text-muted">Sign in to access your workspace.</p>
     <p v-if="errorMessage" role="alert" class="mt-4 text-sm text-red-700">{{ errorMessage }}</p>
     <p v-if="csrfLoading" role="status" aria-live="polite" class="mt-6 text-sm text-muted">Preparing secure sign-in...</p>
-    <div v-else-if="csrfReady" class="mt-6" :aria-busy="submitting"><GoogleSignIn @credential="completeLogin" @error="errorMessage = $event" /></div>
+    <div v-else-if="csrfReady" class="mt-6" :aria-busy="submitting"><CommonGoogleSignIn @credential="completeLogin" @error="errorMessage = $event" /></div>
   </section>
 </template>

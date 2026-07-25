@@ -10,7 +10,7 @@ onMounted(async () => {
     const identity = await $googleIdentity.load()
     if (!target.value) return
     identity.initialize({ client_id: $googleIdentity.clientId, callback: response => emit('credential', response) })
-    identity.renderButton(target.value, { theme: 'outline', size: 'large', width: 320, text: 'continue_with' })
+    identity.renderButton(target.value, { theme: 'outline', size: 'large', width: 320, text: 'signin_with' })
   } catch (error) {
     emit('error', error instanceof Error ? error.message : 'Google sign-in is unavailable.')
   }

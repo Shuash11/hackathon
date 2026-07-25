@@ -6,3 +6,33 @@
   body { @apply bg-surface text-ink antialiased; }
   :focus-visible { @apply outline-none ring-2 ring-brand-500 ring-offset-2; }
 }
+
+html { scroll-behavior: smooth; }
+
+::selection { background: #E39B6B; color: #2A1810; }
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #F7E9D7; }
+::-webkit-scrollbar-thumb { background: #C97A47; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #B8863B; }
+
+.scentico-page :focus-visible { outline: 2px solid #B8863B; outline-offset: 3px; box-shadow: none; }
+.scentico-page .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.16,.84,.44,1), transform .8s cubic-bezier(.16,.84,.44,1); }
+.scentico-page .reveal.is-visible { opacity: 1; transform: translateY(0); }
+.scentico-header.scrolled { background: rgba(247, 233, 215, .88); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 10px 30px -20px rgba(42, 24, 16, .5); }
+
+@keyframes drift {
+  0%, 100% { transform: translateY(0) scale(1); opacity: .85; }
+  50% { transform: translateY(-14px) scale(1.03); opacity: 1; }
+}
+@keyframes trail { to { stroke-dashoffset: -200; } }
+@keyframes diffuse {
+  0% { transform: translateX(-50%) scale(.5); opacity: .6; }
+  100% { transform: translateX(-50%) scale(2.1); opacity: 0; }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scentico-page *, .scentico-page *::before, .scentico-page *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+}
