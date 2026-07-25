@@ -24,6 +24,9 @@ INSTALLED_APPS = [
     "apps.core.apps.CoreConfig",
     "apps.users.apps.UsersConfig",
     "apps.authentication.apps.AuthenticationConfig",
+    "apps.catalog.apps.CatalogConfig",
+    "apps.orders.apps.OrdersConfig",
+    "apps.dashboard.apps.DashboardConfig",
 ]
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
