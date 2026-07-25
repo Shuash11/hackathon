@@ -196,10 +196,10 @@ This skeleton intentionally omits business logic. Once the real app concept is a
 
 ## 11. Status
 
-- [ ] Backend scaffold initialized
-- [ ] Frontend scaffold initialized
-- [ ] Google SSO wired end-to-end
-- [ ] PostgreSQL connected
-- [ ] Tailwind configured
-- [ ] Git repo initialized with `.gitignore` and initial commit
-- [ ] `.env.example` files committed for both frontend and backend
+- [x] Backend scaffold initialized
+- [x] Frontend scaffold initialized
+- [x] Google SSO implementation-ready (real Google client credentials and Console origins are still required)
+- [x] PostgreSQL local configuration provided (start the container and run migrations to connect)
+- [x] Tailwind configured
+- [x] `.gitignore` added (repository commits remain a maintainer action)
+- [x] `.env.example` files provided for both frontend and backend
