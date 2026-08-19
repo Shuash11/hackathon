@@ -107,7 +107,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', handleEscape))
       </div>
 
       <div v-else-if="isOpen" class="mt-6" :aria-busy="submitting">
-        <CommonGoogleSignIn @credential="completeLogin" @error="errorMessage = $event" />
+        <GoogleSignIn @credential="completeLogin" @error="errorMessage = $event" />
       </div>
     </section>
   </div>
