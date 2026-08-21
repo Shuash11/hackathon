@@ -1,56 +1,51 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'auth' })
-const log = ref<string[]>([])
 const errorMessage = ref('')
 
 onMounted(async () => {
   try {
     const hash = window.location.hash.substring(1)
-    log.value.push('hash: ' + (hash ? hash.length + ' chars' : 'EMPTY'))
-
     const params = new URLSearchParams(hash)
     const accessToken = params.get('access_token')
-    log.value.push('token: ' + (accessToken ? 'YES' : 'NO'))
 
-    if (!accessToken) throw new Error('No access_token in URL')
+    if (!accessToken) throw new Error('No access_token')
 
     const config = useRuntimeConfig()
     const apiBase = config.public.apiBaseUrl
-    log.value.push('api: ' + apiBase)
 
-    log.value.push('fetching health...')
-    const healthResp = await fetch(apiBase + '/health/', { credentials: 'include' })
-    log.value.push('health: ' + healthResp.status)
+    await fetch(apiBase + '/health/', { credentials: 'include' })
 
-    log.value.push('posting to backend...')
+    const csrfCookie = document.cookie.split('; ').find(c => c.startsWith('csrftoken='))
+    const csrf = csrfCookie ? decodeURIComponent(csrfCookie.slice('csrftoken='.length)) : null
+
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' }
+    if (csrf) headers['X-CSRFToken'] = csrf
+
     const resp = await fetch(apiBase + '/auth/supabase/', {
       method: 'POST',
       credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({ access_token: accessToken }),
     })
-    const body = await resp.text()
-    log.value.push('backend: ' + resp.status)
 
-    if (!resp.ok) throw new Error('Backend ' + resp.status + ': ' + body.substring(0, 200))
+    if (!resp.ok) throw new Error('Backend error')
 
-    const data = JSON.parse(body)
+    const data = await resp.json()
     const auth = useAuthStore()
     auth.setUser(data.user)
-    log.value.push('SUCCESS - redirecting')
     window.history.replaceState({}, '', '/auth/callback')
     await navigateTo('/dashboard')
-  } catch (err: any) {
-    errorMessage.value = err.message || String(err)
+  } catch {
+    errorMessage.value = 'Sign-in could not be completed.'
   }
 })
 </script>
 
 <template>
-  <section class="w-full max-w-lg rounded-panel bg-white p-6 shadow-panel sm:p-8">
+  <section class="w-full max-w-md rounded-panel bg-white p-6 shadow-panel sm:p-8">
     <h1 class="text-2xl font-bold">Signing in</h1>
-    <div class="mt-4 font-mono text-xs text-muted" style="white-space: pre-line">{{ log.join('\n') }}</div>
-    <p v-if="errorMessage" role="alert" class="mt-4 text-sm text-red-700 font-mono">{{ errorMessage }}</p>
+    <p v-if="!errorMessage" class="mt-4 text-sm text-muted">Completing sign-in...</p>
+    <p v-if="errorMessage" role="alert" class="mt-4 text-sm text-red-700">{{ errorMessage }}</p>
     <NuxtLink v-if="errorMessage" to="/" class="mt-6 inline-block text-sm font-medium underline">Back to sign in</NuxtLink>
   </section>
 </template>
