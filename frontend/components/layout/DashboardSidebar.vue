@@ -3,14 +3,22 @@ defineProps<{ open: boolean }>()
 const emit = defineEmits<{ close: [] }>()
 
 const route = useRoute()
-const { signOut } = useAuth()
+const { signOut, auth } = useAuth()
 const signingOut = ref(false)
 
-const navigation = [
-  { label: 'Dashboard', to: '/dashboard', icon: 'home' as const },
-  { label: 'Products', to: '/dashboard/catalog', icon: 'products' as const },
-  { label: 'Customer Orders', to: '/dashboard/orders', icon: 'orders' as const },
-]
+const isAdmin = computed(() => auth.user?.role === 'admin')
+
+const navigation = computed(() => {
+  const items: { label: string; to: string; icon: 'home' | 'products' | 'categories' | 'orders' | 'settings' | 'logout' | 'menu' | 'close' | 'bell' | 'revenue' | 'trend' | 'alert' | 'search' | 'arrow' | 'refresh' | 'trash' | 'user' | 'chevron-left' | 'chevron-right' }[] = [
+    { label: 'Dashboard', to: '/dashboard', icon: 'home' },
+    { label: 'Products', to: '/dashboard/catalog', icon: 'products' },
+    { label: 'Customer Orders', to: '/dashboard/orders', icon: 'orders' },
+  ]
+  if (isAdmin.value) {
+    items.push({ label: 'Admin', to: '/dashboard/admin', icon: 'settings' })
+  }
+  return items
+})
 
 function isActive(to: string): boolean {
   if (to === '/dashboard') return route.path === to

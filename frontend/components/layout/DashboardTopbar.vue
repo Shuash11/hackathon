@@ -7,6 +7,7 @@ const pageTitle = computed(() => {
   if (/^\/dashboard\/orders\/\d+/.test(route.path)) return 'Order detail'
   if (route.path.startsWith('/dashboard/orders')) return 'Customer Orders'
   if (route.path.startsWith('/dashboard/catalog')) return 'Products'
+  if (route.path.startsWith('/dashboard/admin')) return 'Admin'
   return 'Dashboard'
 })
 
