@@ -1,4 +1,4 @@
-import type { GoogleCredentialResponse, UserResponse } from '~/types/auth'
+import type { UserResponse } from '~/types/auth'
 import { safeInternalRedirect } from '~/utils/redirect'
 
 export function useAuth() {
@@ -12,13 +12,6 @@ export function useAuth() {
     } catch {
       auth.clear()
     }
-  }
-
-  async function signInWithGoogle(credential: GoogleCredentialResponse): Promise<void> {
-    const response = await api.request<UserResponse>('/auth/google/', {
-      method: 'POST', body: credential, retryAfterRefresh: false,
-    })
-    auth.setUser(response.user)
   }
 
   async function signOut(): Promise<void> {
@@ -37,5 +30,5 @@ export function useAuth() {
     await navigateTo(safeInternalRedirect(candidate) || '/dashboard')
   }
 
-  return { auth, loadCurrentUser, signInWithGoogle, signOut, bootstrapCsrf, redirectAfterLogin }
+  return { auth, loadCurrentUser, signOut, bootstrapCsrf, redirectAfterLogin }
 }

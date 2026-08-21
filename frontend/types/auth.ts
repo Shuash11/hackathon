@@ -8,7 +8,3 @@ export interface User {
 export interface UserResponse {
   user: User
 }
-
-export interface GoogleCredentialResponse {
-  credential: string
-}
