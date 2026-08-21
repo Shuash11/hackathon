@@ -1,6 +1,5 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'auth' })
-const errorMessage = ref('')
 
 onMounted(async () => {
   try {
@@ -33,19 +32,14 @@ onMounted(async () => {
     const data = await resp.json()
     const auth = useAuthStore()
     auth.setUser(data.user)
-    window.history.replaceState({}, '', '/auth/callback')
+    window.history.replaceState({}, '', '/dashboard')
     await navigateTo('/dashboard')
   } catch {
-    errorMessage.value = 'Sign-in could not be completed.'
+    await navigateTo('/')
   }
 })
 </script>
 
 <template>
-  <section class="w-full max-w-md rounded-panel bg-white p-6 shadow-panel sm:p-8">
-    <h1 class="text-2xl font-bold">Signing in</h1>
-    <p v-if="!errorMessage" class="mt-4 text-sm text-muted">Completing sign-in...</p>
-    <p v-if="errorMessage" role="alert" class="mt-4 text-sm text-red-700">{{ errorMessage }}</p>
-    <NuxtLink v-if="errorMessage" to="/" class="mt-6 inline-block text-sm font-medium underline">Back to sign in</NuxtLink>
-  </section>
+  <div />
 </template>
