@@ -30,6 +30,8 @@ class OrderViewSet(viewsets.ModelViewSet):
                 )
             )
         )
+        if self.request.user.is_authenticated and not self.request.user.is_admin:
+            queryset = queryset.filter(user=self.request.user)
         if values.get("status"):
             queryset = queryset.filter(status=values["status"])
         search = values.get("search") or values.get("customer")

@@ -5,6 +5,8 @@ definePageMeta({ layout: 'dashboard', middleware: 'auth' })
 useHead({ title: 'Scentico' })
 
 const { getCategories, getProducts } = useDashboardApi()
+const { auth } = useAuth()
+const isAdmin = computed(() => auth.user?.role === 'admin')
 const selectedCategory = ref('')
 
 const { data: categories } = await useAsyncData('categories', () => getCategories())
@@ -26,7 +28,7 @@ const loading = computed(() => status.value === 'pending')
         <p class="mt-3 max-w-2xl text-sm leading-6 text-atelier-ink/55 sm:text-base">Discover our carefully curated collection of small-batch fragrances, blended slowly in warm tones.</p>
       </div>
       <NuxtLink to="/dashboard/orders" class="inline-flex w-fit items-center gap-2 rounded-xl bg-atelier-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-atelier-moss">
-        Customer orders <DashboardIcon name="arrow" class="h-4 w-4" />
+        {{ isAdmin ? 'Customer orders' : 'My orders' }} <DashboardIcon name="arrow" class="h-4 w-4" />
       </NuxtLink>
     </header>
 

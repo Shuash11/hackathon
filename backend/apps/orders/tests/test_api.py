@@ -13,7 +13,7 @@ from apps.users.models import User
 @pytest.fixture
 def order_data(api_client):
     owner = User.objects.create_user(
-        "owner@example.com", first_name="Store", last_name="Owner"
+        "owner@example.com", first_name="Store", last_name="Owner", role="admin"
     )
     customer = User.objects.create_user(
         "sasha@example.com", first_name="Sasha", last_name="Reed"

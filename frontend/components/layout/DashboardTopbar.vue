@@ -3,9 +3,12 @@ const emit = defineEmits<{ openMenu: [] }>()
 const route = useRoute()
 const { auth } = useAuth()
 
+const { auth } = useAuth()
+const isAdmin = computed(() => auth.user?.role === 'admin')
+
 const pageTitle = computed(() => {
   if (/^\/dashboard\/orders\/\d+/.test(route.path)) return 'Order detail'
-  if (route.path.startsWith('/dashboard/orders')) return 'Customer Orders'
+  if (route.path.startsWith('/dashboard/orders')) return isAdmin.value ? 'Customer Orders' : 'My Orders'
   if (route.path.startsWith('/dashboard/catalog')) return 'Products'
   if (route.path.startsWith('/dashboard/admin')) return 'Admin'
   return 'Dashboard'

@@ -12,7 +12,7 @@ const navigation = computed(() => {
   const items: { label: string; to: string; icon: 'home' | 'products' | 'categories' | 'orders' | 'settings' | 'logout' | 'menu' | 'close' | 'bell' | 'revenue' | 'trend' | 'alert' | 'search' | 'arrow' | 'refresh' | 'trash' | 'user' | 'chevron-left' | 'chevron-right' }[] = [
     { label: 'Dashboard', to: '/dashboard', icon: 'home' },
     { label: 'Products', to: '/dashboard/catalog', icon: 'products' },
-    { label: 'Customer Orders', to: '/dashboard/orders', icon: 'orders' },
+    { label: isAdmin.value ? 'Customer Orders' : 'My Orders', to: '/dashboard/orders', icon: 'orders' },
   ]
   if (isAdmin.value) {
     items.push({ label: 'Admin', to: '/dashboard/admin', icon: 'settings' })

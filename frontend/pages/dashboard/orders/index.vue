@@ -3,7 +3,10 @@ import type { OrderFilters, OrderStatus } from '~/types/dashboard'
 import { apiErrorMessage } from '~/utils/dashboard'
 
 definePageMeta({ layout: 'dashboard', middleware: 'auth' })
-useHead({ title: 'Customer Orders | Scentico' })
+
+const { auth } = useAuth()
+const isAdmin = computed(() => auth.user?.role === 'admin')
+useHead({ title: computed(() => `${isAdmin.value ? 'Customer Orders' : 'My Orders'} | Scentico`) })
 
 const route = useRoute()
 const { getOrders } = useDashboardApi()
@@ -85,8 +88,8 @@ async function changePage(nextPage: number): Promise<void> {
     <header class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-atelier-moss">Order desk</p>
-        <h1 class="mt-2 font-display text-4xl sm:text-5xl">Customer orders</h1>
-        <p class="mt-3 text-sm leading-6 text-atelier-ink/55">Search, review, and move every order through fulfillment.</p>
+        <h1 class="mt-2 font-display text-4xl sm:text-5xl">{{ isAdmin ? 'Customer orders' : 'My orders' }}</h1>
+        <p class="mt-3 text-sm leading-6 text-atelier-ink/55">{{ isAdmin ? 'Search, review, and move every order through fulfillment.' : 'Track the status of your orders.' }}</p>
       </div>
       <div v-if="orders && !error" class="rounded-full border border-atelier-line bg-atelier-cream px-4 py-2 text-xs text-atelier-ink/55">
         <span class="font-bold text-atelier-ink">{{ orders.count }}</span> {{ orders.count === 1 ? 'order' : 'orders' }} found
