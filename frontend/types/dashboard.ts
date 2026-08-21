@@ -12,6 +12,17 @@ export interface CategorySummary {
   product_count: number
 }
 
+export interface ProductSummary {
+  id: number
+  name: string
+  price: string
+  stock: number
+  image: string | null
+  scent_summary: string
+  category_name: string
+  category_slug: string
+}
+
 export interface OrderSummary {
   id: number
   customer: Customer

@@ -5,7 +5,8 @@ const { auth } = useAuth()
 
 const pageTitle = computed(() => {
   if (/^\/dashboard\/orders\/\d+/.test(route.path)) return 'Order detail'
-  if (route.path.startsWith('/dashboard/orders')) return 'Orders'
+  if (route.path.startsWith('/dashboard/orders')) return 'Customer Orders'
+  if (route.path.startsWith('/dashboard/catalog')) return 'Products'
   return 'Dashboard'
 })
 

@@ -3,7 +3,7 @@ import type { OrderFilters, OrderStatus } from '~/types/dashboard'
 import { apiErrorMessage } from '~/utils/dashboard'
 
 definePageMeta({ layout: 'dashboard', middleware: 'auth' })
-useHead({ title: 'Orders | Scentico' })
+useHead({ title: 'Customer Orders | Scentico' })
 
 const route = useRoute()
 const { getOrders } = useDashboardApi()

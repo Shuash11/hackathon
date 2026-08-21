@@ -6,6 +6,7 @@ import type {
   OrderStatus,
   OrderSummary,
   PaginatedResponse,
+  ProductSummary,
 } from '~/types/dashboard'
 import { buildOrderQuery } from '~/utils/dashboard'
 
@@ -14,6 +15,10 @@ export function useDashboardApi() {
 
   const getAnalytics = () => api.request<AnalyticsSummary>('/analytics/summary/')
   const getCategories = () => api.request<CategorySummary[]>('/categories/')
+  const getProducts = (category?: string) => {
+    const query = category ? `?category=${category}` : ''
+    return api.request<ProductSummary[]>(`/products/${query}`)
+  }
   const getOrders = (filters: OrderFilters) => api.request<PaginatedResponse<OrderSummary>>(
     `/orders/${buildOrderQuery(filters)}`,
   )
@@ -27,6 +32,7 @@ export function useDashboardApi() {
   return {
     getAnalytics,
     getCategories,
+    getProducts,
     getOrders,
     getOrder,
     updateOrderStatus,

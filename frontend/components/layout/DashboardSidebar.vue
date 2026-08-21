@@ -9,8 +9,7 @@ const signingOut = ref(false)
 const navigation = [
   { label: 'Dashboard', to: '/dashboard', icon: 'home' as const },
   { label: 'Products', to: '/dashboard/catalog', icon: 'products' as const },
-  { label: 'Categories', to: '/categories', icon: 'categories' as const },
-  { label: 'Orders', to: '/dashboard/orders', icon: 'orders' as const },
+  { label: 'Customer Orders', to: '/dashboard/orders', icon: 'orders' as const },
 ]
 
 function isActive(to: string): boolean {
@@ -70,21 +69,9 @@ async function handleSignOut(): Promise<void> {
           >
             <DashboardIcon :name="item.icon" class="h-[18px] w-[18px] shrink-0" />
             <span>{{ item.label }}</span>
-            <span v-if="item.to === '/categories'" class="ml-auto rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider" :class="isActive(item.to) ? 'bg-atelier-canvas' : 'bg-white/10 text-white/45'">Soon</span>
           </NuxtLink>
         </li>
       </ul>
-
-      <p class="mt-9 px-3 text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">Account</p>
-      <NuxtLink
-        to="/settings"
-        class="mt-3 flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-white/65 transition hover:bg-white/10 hover:text-white"
-        @click="emit('close')"
-      >
-        <DashboardIcon name="settings" class="h-[18px] w-[18px]" />
-        <span>Settings</span>
-        <span class="ml-auto rounded-full bg-white/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white/45">Soon</span>
-      </NuxtLink>
     </nav>
 
     <div class="border-t border-white/10 p-4">

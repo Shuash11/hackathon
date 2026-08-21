@@ -1,102 +1,102 @@
 <script setup lang="ts">
-import { apiErrorMessage, formatCompactCurrency, formatCurrency } from '~/utils/dashboard'
+import type { CategorySummary, ProductSummary } from '~/types/dashboard'
 
 definePageMeta({ layout: 'dashboard', middleware: 'auth' })
-useHead({ title: 'Dashboard | Scentico' })
+useHead({ title: 'Scentico' })
 
-const { getAnalytics, getCategories } = useDashboardApi()
-const { data: overview, status, error, refresh } = await useAsyncData(
-  'dashboard-overview',
-  async () => {
-    const [analytics, categories] = await Promise.all([getAnalytics(), getCategories()])
-    return { analytics, categories }
-  },
+const { getCategories, getProducts } = useDashboardApi()
+const selectedCategory = ref('')
+
+const { data: categories } = await useAsyncData('categories', () => getCategories())
+const { data: products, status, error, refresh } = await useAsyncData(
+  'products',
+  () => getProducts(selectedCategory.value || undefined),
+  { watch: [selectedCategory] },
 )
 
 const loading = computed(() => status.value === 'pending')
-const errorMessage = computed(() => apiErrorMessage(error.value, 'Check the API connection and try again.'))
 </script>
 
 <template>
   <div>
     <header class="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-atelier-moss">Daily brief</p>
-        <h1 class="mt-2 max-w-3xl font-display text-4xl leading-tight sm:text-5xl">Your atelier, at a glance.</h1>
-        <p class="mt-3 max-w-2xl text-sm leading-6 text-atelier-ink/55 sm:text-base">Track every collection, order, and top-performing fragrance from one focused workspace.</p>
+        <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-atelier-moss">Scentico</p>
+        <h1 class="mt-2 font-display text-4xl leading-tight sm:text-5xl">Our fragrances</h1>
+        <p class="mt-3 max-w-2xl text-sm leading-6 text-atelier-ink/55 sm:text-base">Discover our carefully curated collection of small-batch fragrances, blended slowly in warm tones.</p>
       </div>
       <NuxtLink to="/dashboard/orders" class="inline-flex w-fit items-center gap-2 rounded-xl bg-atelier-ink px-5 py-3 text-sm font-semibold text-white transition hover:bg-atelier-moss">
-        Manage orders <DashboardIcon name="arrow" class="h-4 w-4" />
+        Customer orders <DashboardIcon name="arrow" class="h-4 w-4" />
       </NuxtLink>
     </header>
 
-    <DashboardError v-if="error && !loading" class="mt-8" :message="errorMessage" @retry="refresh" />
+    <DashboardError v-if="error && !loading" class="mt-8" message="Could not load products. Check the API connection and try again." @retry="refresh" />
 
-    <template v-else-if="loading || !overview">
-      <div class="mt-8 grid animate-pulse gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <div v-for="index in 4" :key="index" class="h-40 rounded-2xl bg-atelier-line/60" />
+    <section v-if="categories && categories.length" aria-label="Collections" class="mt-8">
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="button"
+          class="rounded-full border px-4 py-2 text-xs font-semibold transition"
+          :class="selectedCategory === '' ? 'border-atelier-ink bg-atelier-ink text-white' : 'border-atelier-line bg-white text-atelier-ink/60 hover:border-atelier-ink/30'"
+          @click="selectedCategory = ''"
+        >
+          All
+        </button>
+        <button
+          v-for="cat in categories"
+          :key="cat.id"
+          type="button"
+          class="rounded-full border px-4 py-2 text-xs font-semibold transition"
+          :class="selectedCategory === cat.slug ? 'border-atelier-ink bg-atelier-ink text-white' : 'border-atelier-line bg-white text-atelier-ink/60 hover:border-atelier-ink/30'"
+          @click="selectedCategory = cat.slug"
+        >
+          {{ cat.name }} ({{ cat.product_count }})
+        </button>
       </div>
-      <div class="mt-8 grid animate-pulse gap-6 xl:grid-cols-[1.4fr_0.8fr]">
-        <div class="h-96 rounded-2xl bg-atelier-line/60" />
-        <div class="h-96 rounded-2xl bg-atelier-line/60" />
+    </section>
+
+    <template v-if="loading">
+      <div class="mt-8 grid animate-pulse gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div v-for="index in 8" :key="index" class="h-64 rounded-2xl bg-atelier-line/60" />
       </div>
     </template>
 
-    <template v-else>
-      <section aria-label="Business summary" class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Products" :value="overview.analytics.total_products" detail="Across four collections" icon="products" />
-        <StatCard label="All orders" :value="overview.analytics.total_orders" :detail="`${overview.analytics.orders_this_month} received this month`" icon="orders" />
-        <StatCard label="Total revenue" :value="formatCompactCurrency(overview.analytics.total_revenue)" detail="Excludes cancelled orders" icon="revenue" accent />
-        <StatCard label="Monthly revenue" :value="formatCompactCurrency(overview.analytics.revenue_this_month)" detail="Current calendar month" icon="trend" />
-      </section>
-
-      <section aria-labelledby="collections-heading" class="mt-10">
-        <div class="mb-5 flex items-end justify-between gap-4">
-          <div>
-            <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-atelier-moss">Inventory lens</p>
-            <h2 id="collections-heading" class="mt-2 font-display text-3xl">Shop by collection</h2>
+    <section v-else-if="products && products.length" aria-label="Products" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <article
+        v-for="product in products"
+        :key="product.id"
+        class="group overflow-hidden rounded-2xl border border-atelier-line bg-white transition hover:shadow-lg"
+      >
+        <div class="aspect-square overflow-hidden bg-gradient-to-br from-atelier-cream to-atelier-warm/30">
+          <img
+            v-if="product.image"
+            :src="product.image"
+            :alt="product.name"
+            class="h-full w-full object-cover transition group-hover:scale-105"
+          />
+          <div v-else class="flex h-full items-center justify-center">
+            <span class="text-5xl opacity-20">&#x2618;</span>
           </div>
-          <p class="hidden text-xs text-atelier-ink/45 sm:block">Select a collection to view its products</p>
         </div>
-        <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          <CategoryCard v-for="category in overview.categories" :key="category.id" :category="category" />
+        <div class="p-4">
+          <p class="text-[10px] font-bold uppercase tracking-[0.2em] text-atelier-moss">{{ product.category_name }}</p>
+          <h3 class="mt-1 font-display text-xl">{{ product.name }}</h3>
+          <p v-if="product.scent_summary" class="mt-2 line-clamp-2 text-xs leading-5 text-atelier-ink/50">{{ product.scent_summary }}</p>
+          <div class="mt-4 flex items-end justify-between">
+            <p class="font-display text-2xl">&#8377;{{ Number(product.price).toFixed(0) }}</p>
+            <span
+              class="rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider"
+              :class="product.stock > 0 ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'"
+            >
+              {{ product.stock > 0 ? 'In stock' : 'Sold out' }}
+            </span>
+          </div>
         </div>
-      </section>
+      </article>
+    </section>
 
-      <section aria-label="Sales analysis" class="mt-8 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-        <CategoryBreakdownChart :data="overview.analytics.orders_by_category" />
-        <BestSellersList :products="overview.analytics.best_sellers" />
-      </section>
-
-      <section aria-label="Order activity" class="mt-8 grid gap-6 2xl:grid-cols-[1fr_19rem]">
-        <RecentOrdersList :orders="overview.analytics.recent_orders" />
-        <article class="overflow-hidden rounded-2xl border border-atelier-line bg-atelier-ink p-5 text-white sm:p-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-white/45">Inventory watch</p>
-              <h2 class="mt-2 font-display text-2xl">Low stock</h2>
-            </div>
-            <span class="grid h-10 w-10 place-items-center rounded-full bg-white/10 text-amber-300"><DashboardIcon name="alert" class="h-5 w-5" /></span>
-          </div>
-          <ul v-if="overview.analytics.low_stock.length" class="mt-6 divide-y divide-white/10">
-            <li v-for="product in overview.analytics.low_stock" :key="product.id" class="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0">
-              <div class="min-w-0">
-                <p class="truncate text-sm font-semibold">{{ product.name }}</p>
-                <p class="mt-0.5 text-xs text-white/40">{{ product.category }}</p>
-              </div>
-              <span class="rounded-full bg-white/10 px-2.5 py-1 text-xs font-semibold text-amber-200">{{ product.stock }} left</span>
-            </li>
-          </ul>
-          <div v-else class="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
-            <p class="text-sm font-semibold">Inventory looks healthy</p>
-            <p class="mt-1 text-xs leading-5 text-white/45">No products are at or below the five-unit threshold.</p>
-          </div>
-          <div class="mt-6 border-t border-white/10 pt-5">
-            <p class="text-[10px] uppercase tracking-[0.14em] text-white/35">Booked revenue</p>
-            <p class="mt-2 font-display text-2xl">{{ formatCurrency(overview.analytics.total_revenue) }}</p>
-          </div>
-        </article>
-      </section>
-    </template>
+    <div v-else-if="!loading" class="mt-16 text-center">
+      <p class="text-sm text-atelier-ink/45">No products available yet.</p>
+    </div>
   </div>
 </template>
