@@ -2,8 +2,6 @@
 const emit = defineEmits<{ openMenu: [] }>()
 const route = useRoute()
 const { auth } = useAuth()
-
-const { auth } = useAuth()
 const isAdmin = computed(() => auth.user?.role === 'admin')
 
 const pageTitle = computed(() => {
