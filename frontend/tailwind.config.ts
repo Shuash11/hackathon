@@ -36,6 +36,10 @@ export default <Partial<Config>>{
         gold: '#B8863B',
         'gold-light': '#D4A857',
         footer: '#1E120B',
+        midnight: '#150E09',
+        'midnight-deep': '#090503',
+        'midnight-soft': '#211509',
+        mist: '#F6EFE4',
       },
       fontFamily: {
         display: ['Fraunces', 'serif'],
@@ -43,6 +47,10 @@ export default <Partial<Config>>{
         body: ['Manrope', 'sans-serif'],
       },
       borderRadius: { panel: '1rem' },
+      animation: {
+        drift: 'drift 9s ease-in-out infinite',
+        'drift-slow': 'drift 16s ease-in-out infinite',
+      },
       boxShadow: {
         panel: '0 10px 30px rgba(23, 32, 51, 0.08)',
         soft: '0 20px 50px -25px rgba(42, 24, 16, .45)',

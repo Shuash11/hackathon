@@ -14,12 +14,16 @@ useHead({
 const page = ref<HTMLElement | null>(null)
 const loginOpen = ref(false)
 useScenticoReveal(page)
+
+onMounted(() => {
+  if (!window.location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+})
 </script>
 
 <template>
   <div ref="page" class="scentico-page min-h-screen overflow-x-hidden bg-cream font-body leading-relaxed text-espresso antialiased">
     <ScenticoHeader @open-login="loginOpen = true" />
-    <main><ScenticoHero /><ScenticoAbout /><ScenticoProducts /><ScenticoPromoGallery /><ScenticoContact /></main>
+    <main><ScenticoHero /><ScenticoAbout /><ScenticoPromoGallery /><ScenticoContact /></main>
     <ScenticoFooter @open-login="loginOpen = true" />
     <ScenticoLoginModal v-model="loginOpen" />
   </div>
