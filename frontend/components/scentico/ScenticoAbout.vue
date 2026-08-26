@@ -2,6 +2,8 @@
 const word = 'VARIANTS'
 const letters = word.split('')
 
+const emit = defineEmits<{ 'open-login': [] }>()
+
 const bottles = [
   { id: 'velvet-rose', name: 'Velvet Rose', src: '/scentico/velvet-rose.png', alt: 'Velvet Rose', scene: '/scentico/velvet-rose-bg.mp4', platform: 'linear-gradient(165deg, rgba(196, 128, 132, .65) 0%, rgba(122, 62, 66, .8) 45%, rgba(56, 24, 28, .9) 100%)', badge: 'New', gender: 'Men', desc: 'A velvety rose heart wrapped in soft musk — bold yet effortless.', price: '₱259' },
   { id: 'smoke-vanilla', name: 'Smoked Vanilla', src: '/scentico/smoke-vanilla.png', alt: 'Smoked Vanilla', scene: '/scentico/smoke-vanilla-bg.mp4', platform: 'linear-gradient(165deg, rgba(214, 178, 128, .75) 0%, rgba(146, 104, 58, .8) 45%, rgba(74, 48, 22, .85) 100%)', badge: 'Cozy', gender: 'Men', desc: 'Warm smoked vanilla over cedarwood — like firelight in a bottle.', price: '₱259' },
@@ -105,7 +107,7 @@ onBeforeUnmount(() => {
                   <span class="block text-[.62rem] font-bold uppercase tracking-[.24em] text-white/50">Price</span>
                   <span class="font-display text-[1.9rem] font-semibold text-white">{{ active.price }}</span>
                 </div>
-                <button class="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[.78rem] font-extrabold uppercase tracking-[.14em] text-[#0B121E] shadow-[0_10px_28px_rgba(0,0,0,.4)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#EBF4FF] hover:shadow-[0_14px_34px_rgba(0,0,0,.5)]">
+                <button class="group inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-[.78rem] font-extrabold uppercase tracking-[.14em] text-[#0B121E] shadow-[0_10px_28px_rgba(0,0,0,.4)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#EBF4FF] hover:shadow-[0_14px_34px_rgba(0,0,0,.5)]" @click="emit('open-login')">
                   Buy Now
                   <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </button>
@@ -190,7 +192,7 @@ onBeforeUnmount(() => {
 
 .shelf-bottle {
   position: relative;
-  height: clamp(150px, 21vw, 280px);
+  height: clamp(170px, 24vw, 320px);
   display: flex;
   align-items: flex-end;
   animation: bottle-stand .9s cubic-bezier(.22, 1, .36, 1) backwards;
