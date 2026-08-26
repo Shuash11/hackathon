@@ -78,13 +78,13 @@ onBeforeUnmount(() => {
 
     <Transition name="scene">
       <div v-if="active" class="scene-layer absolute inset-0 z-20" @click.self="closeScene">
-        <div class="scene-inner relative flex h-full w-full items-center justify-between px-[6vw] md:px-[8vw]">
-          <div class="scene-bottle-wrap relative flex h-[52vh] items-end justify-center md:h-[58vh]" style="flex: 0 0 auto">
+        <div class="scene-inner relative flex h-full w-full items-center justify-center gap-[3vw] md:gap-[4vw] px-[4vw] md:px-[5vw]">
+          <div class="scene-bottle-wrap relative flex h-[58vh] w-[min(38vw,560px)] items-end justify-center">
             <div class="scene-platform" aria-hidden="true" :style="{ background: active.platform }"></div>
             <img :src="active.src" :alt="active.alt" class="scene-bottle-img" draggable="false" />
             <div class="scene-bottle-shadow" aria-hidden="true"></div>
           </div>
-          <div class="scene-right relative flex w-max max-w-[92vw] flex-col items-stretch">
+          <div class="scene-right relative flex w-max max-w-[92vw] flex-col items-stretch self-center">
             <h3 ref="titleRef" class="scene-title relative z-10 -mb-5 flex w-max flex-nowrap items-baseline gap-[.05em] overflow-visible whitespace-nowrap font-display text-[clamp(2.1rem,4.4vw,4rem)] font-extrabold uppercase leading-[.9] tracking-[.03em] md:-mb-7">
               <span v-for="(ch, ci) in active.name.toUpperCase().split('')" :key="`t${ci}`" class="scene-title-letter" :data-char="ch === ' ' ? '\u00A0' : ch" :class="ch === ' ' ? 'w-[.3em]' : ''" :style="{ '--i': ci }">{{ ch === ' ' ? '\u00A0' : ch }}</span>
             </h3>
@@ -355,11 +355,11 @@ onBeforeUnmount(() => {
 
 .scene-platform {
   position: absolute;
-  bottom: -4%;
+  bottom: -2.5vh;
   left: 50%;
   transform: translateX(-50%);
-  width: 150%;
-  height: 22%;
+  width: clamp(360px, 36vw, 520px);
+  height: clamp(38px, 4.2vw, 58px);
   border-radius: 14px;
   background: linear-gradient(165deg, rgba(190, 228, 250, .55) 0%, rgba(120, 180, 215, .4) 45%, rgba(60, 110, 150, .55) 100%);
   border: 1px solid rgba(230, 246, 255, .25);
