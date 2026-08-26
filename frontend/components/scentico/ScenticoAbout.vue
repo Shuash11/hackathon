@@ -14,9 +14,25 @@ const sceneBottles = bottles.filter(b => b.scene)
 
 const active = ref<typeof bottles[number] | null>(null)
 const videoEl = ref<HTMLVideoElement | null>(null)
+const titleRef = ref<HTMLElement | null>(null)
+const panelRef = ref<HTMLElement | null>(null)
+
+async function syncPanelWidth(): Promise<void> {
+  if (!active.value) {
+    if (panelRef.value) panelRef.value.style.width = ''
+    return
+  }
+  await nextTick()
+  if (titleRef.value && panelRef.value) {
+    panelRef.value.style.width = `${titleRef.value.offsetWidth}px`
+  }
+}
+
+watch(active, () => { syncPanelWidth() })
 
 onMounted(() => {
   videoEl.value?.play().catch(() => {})
+  window.addEventListener('resize', syncPanelWidth)
 })
 
 function openScene(b: typeof bottles[number]): void { active.value = b }
@@ -24,7 +40,10 @@ function closeScene(): void { active.value = null }
 
 function onKey(e: KeyboardEvent): void { if (e.key === 'Escape') closeScene() }
 onMounted(() => window.addEventListener('keydown', onKey))
-onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
+onBeforeUnmount(() => {
+  window.removeEventListener('keydown', onKey)
+  window.removeEventListener('resize', syncPanelWidth)
+})
 </script>
 
 <template>
@@ -66,10 +85,10 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey))
             <div class="scene-bottle-shadow" aria-hidden="true"></div>
           </div>
           <div class="scene-right relative flex w-max max-w-[92vw] flex-col items-stretch">
-            <h3 class="scene-title relative z-10 -mb-5 flex w-max flex-nowrap items-baseline gap-[.05em] overflow-visible whitespace-nowrap font-display text-[clamp(2.1rem,4.4vw,4rem)] font-extrabold uppercase leading-[.9] tracking-[.03em] md:-mb-7">
+            <h3 ref="titleRef" class="scene-title relative z-10 -mb-5 flex w-max flex-nowrap items-baseline gap-[.05em] overflow-visible whitespace-nowrap font-display text-[clamp(2.1rem,4.4vw,4rem)] font-extrabold uppercase leading-[.9] tracking-[.03em] md:-mb-7">
               <span v-for="(ch, ci) in active.name.toUpperCase().split('')" :key="`t${ci}`" class="scene-title-letter" :data-char="ch === ' ' ? '\u00A0' : ch" :class="ch === ' ' ? 'w-[.3em]' : ''" :style="{ '--i': ci }">{{ ch === ' ' ? '\u00A0' : ch }}</span>
             </h3>
-            <div class="scene-panel w-full rounded-[24px] border border-white/15 bg-black/35 p-8 pt-10 text-left backdrop-blur-xl md:p-10 md:pt-12">
+            <div ref="panelRef" class="scene-panel w-full rounded-[24px] border border-white/15 bg-black/35 p-8 pt-10 text-left backdrop-blur-xl md:p-10 md:pt-12">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-3.5 py-1.5 text-[.66rem] font-bold uppercase tracking-[.2em] text-white shadow-[0_0_14px_rgba(221,234,247,.3)]">
                   <svg class="h-3 w-3 fill-gold-light" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
