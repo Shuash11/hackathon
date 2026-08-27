@@ -9,7 +9,7 @@ const bottles = [
   { id: 'smoke-vanilla', name: 'Smoked Vanilla', src: '/scentico/smoke-vanilla.webp', alt: 'Smoked Vanilla', scene: '/scentico/smoke-vanilla-bg.webm', platform: 'linear-gradient(165deg, rgba(214, 178, 128, .75) 0%, rgba(146, 104, 58, .8) 45%, rgba(74, 48, 22, .85) 100%)', badge: 'Cozy', gender: 'Men / Women', desc: 'Warm smoked vanilla over cedarwood — like firelight in a bottle.', price: '₱259', layer: '/scentico/smoke.webp' },
   { id: 'glace-noir', name: 'Glacé Noir', src: '/scentico/asset1.webp', alt: 'Glacé Noir', scene: '/scentico/glacier-anime.webm', platform: 'linear-gradient(165deg, rgba(190, 228, 250, .55) 0%, rgba(120, 180, 215, .4) 45%, rgba(60, 110, 150, .55) 100%)', badge: 'Best Seller', gender: 'Men', desc: 'A cold, strong scent — frosted amber and arctic musk that hits sharp and lingers deep.', price: '₱259', layer: '/scentico/glacier.webp' },
   { id: 'amber-noir', name: 'Amber Noir', src: '/scentico/amber-noir.webp', alt: 'Amber Noir', scene: '/scentico/amber-noir-bg.webm', platform: 'linear-gradient(165deg, rgba(120, 96, 62, .65) 0%, rgba(66, 50, 28, .85) 45%, rgba(24, 18, 10, .92) 100%)', badge: 'Bold', gender: 'Men', desc: 'Dark amber and black orchid over spiced resin — confidence after dark.', price: '₱259', layer: '/scentico/amberNoir.webp', layerFramed: true },
-  { id: 'cedar-veil', name: 'Cedar Veil', src: '/scentico/cedar-veil.webp', alt: 'Cedar Veil', scene: '/scentico/cedar-veil-bg.webm', platform: 'linear-gradient(165deg, rgba(120, 138, 118, .6) 0%, rgba(74, 88, 70, .75) 45%, rgba(38, 48, 36, .85) 100%)', badge: 'Fresh', gender: 'Men', desc: 'White cedar and sea salt veiled in vetiver — a quiet forest mist.', price: '₱259' },
+  { id: 'cedar-veil', name: 'Cedar Veil', src: '/scentico/cedar-veil.webp', alt: 'Cedar Veil', scene: '/scentico/cedar-veil-bg.webm', layer: '/scentico/realcedar.webp', platform: 'linear-gradient(165deg, rgba(120, 138, 118, .6) 0%, rgba(74, 88, 70, .75) 45%, rgba(38, 48, 36, .85) 100%)', badge: 'Fresh', gender: 'Men', desc: 'White cedar and sea salt veiled in vetiver — a quiet forest mist.', price: '₱259' },
 ]
 
 const sceneBottles = bottles.filter(b => b.scene)
@@ -325,6 +325,7 @@ onBeforeUnmount(() => {
 }
 
 .variant-promo {
+  position: relative;
   margin-top: clamp(18px, 2.6vw, 30px);
   display: flex;
   align-items: center;
@@ -372,6 +373,31 @@ onBeforeUnmount(() => {
   border-color: rgba(255, 255, 255, .6);
   background: rgba(255, 255, 255, .24);
   transform: translateY(-2px);
+}
+
+@property --promo-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.variant-promo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  padding: 3px;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(180, 20, 48, 1));
+  background: conic-gradient(from var(--promo-angle), rgba(124, 18, 40, 0) 0deg, #9c1530 28deg, #e06a85 50deg, #9c1530 78deg, rgba(124, 18, 40, 0) 140deg, rgba(124, 18, 40, 0) 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: promo-travel 3s linear infinite;
+}
+
+@keyframes promo-travel {
+  to { --promo-angle: 360deg; }
 }
 
 .variant-promo-tag {
