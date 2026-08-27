@@ -5,11 +5,11 @@ const letters = word.split('')
 const emit = defineEmits<{ 'open-login': [] }>()
 
 const bottles = [
-  { id: 'velvet-rose', name: 'Velvet Rose', src: '/scentico/velvet-rose.webp', alt: 'Velvet Rose', scene: '/scentico/velvet-rose-bg.mp4', platform: 'linear-gradient(165deg, rgba(196, 128, 132, .65) 0%, rgba(122, 62, 66, .8) 45%, rgba(56, 24, 28, .9) 100%)', badge: 'New', gender: 'Women', desc: 'A velvety rose heart wrapped in soft musk — bold yet effortless.', price: '₱259', layer: '/scentico/realvelvet.webp' },
-  { id: 'smoke-vanilla', name: 'Smoked Vanilla', src: '/scentico/smoke-vanilla.webp', alt: 'Smoked Vanilla', scene: '/scentico/smoke-vanilla-bg.mp4', platform: 'linear-gradient(165deg, rgba(214, 178, 128, .75) 0%, rgba(146, 104, 58, .8) 45%, rgba(74, 48, 22, .85) 100%)', badge: 'Cozy', gender: 'Men / Women', desc: 'Warm smoked vanilla over cedarwood — like firelight in a bottle.', price: '₱259', layer: '/scentico/smoke.webp' },
-  { id: 'glace-noir', name: 'Glacé Noir', src: '/scentico/asset1.webp', alt: 'Glacé Noir', scene: '/scentico/glacier-anime.mp4', platform: 'linear-gradient(165deg, rgba(190, 228, 250, .55) 0%, rgba(120, 180, 215, .4) 45%, rgba(60, 110, 150, .55) 100%)', badge: 'Best Seller', gender: 'Men', desc: 'A cold, strong scent — frosted amber and arctic musk that hits sharp and lingers deep.', price: '₱259', layer: '/scentico/glacier.webp' },
-  { id: 'amber-noir', name: 'Amber Noir', src: '/scentico/amber-noir.webp', alt: 'Amber Noir', scene: '/scentico/amber-noir-bg.mp4', platform: 'linear-gradient(165deg, rgba(120, 96, 62, .65) 0%, rgba(66, 50, 28, .85) 45%, rgba(24, 18, 10, .92) 100%)', badge: 'Bold', gender: 'Men', desc: 'Dark amber and black orchid over spiced resin — confidence after dark.', price: '₱259', layer: '/scentico/amberNoir.webp', layerFramed: true },
-  { id: 'cedar-veil', name: 'Cedar Veil', src: '/scentico/cedar-veil.webp', alt: 'Cedar Veil', scene: '/scentico/cedar-veil-bg.mp4', platform: 'linear-gradient(165deg, rgba(120, 138, 118, .6) 0%, rgba(74, 88, 70, .75) 45%, rgba(38, 48, 36, .85) 100%)', badge: 'Fresh', gender: 'Men', desc: 'White cedar and sea salt veiled in vetiver — a quiet forest mist.', price: '₱259' },
+  { id: 'velvet-rose', name: 'Velvet Rose', src: '/scentico/velvet-rose.webp', alt: 'Velvet Rose', scene: '/scentico/velvet-rose-bg.webm', platform: 'linear-gradient(165deg, rgba(196, 128, 132, .65) 0%, rgba(122, 62, 66, .8) 45%, rgba(56, 24, 28, .9) 100%)', badge: 'New', gender: 'Women', desc: 'A velvety rose heart wrapped in soft musk — bold yet effortless.', price: '₱259', layer: '/scentico/realvelvet.webp' },
+  { id: 'smoke-vanilla', name: 'Smoked Vanilla', src: '/scentico/smoke-vanilla.webp', alt: 'Smoked Vanilla', scene: '/scentico/smoke-vanilla-bg.webm', platform: 'linear-gradient(165deg, rgba(214, 178, 128, .75) 0%, rgba(146, 104, 58, .8) 45%, rgba(74, 48, 22, .85) 100%)', badge: 'Cozy', gender: 'Men / Women', desc: 'Warm smoked vanilla over cedarwood — like firelight in a bottle.', price: '₱259', layer: '/scentico/smoke.webp' },
+  { id: 'glace-noir', name: 'Glacé Noir', src: '/scentico/asset1.webp', alt: 'Glacé Noir', scene: '/scentico/glacier-anime.webm', platform: 'linear-gradient(165deg, rgba(190, 228, 250, .55) 0%, rgba(120, 180, 215, .4) 45%, rgba(60, 110, 150, .55) 100%)', badge: 'Best Seller', gender: 'Men', desc: 'A cold, strong scent — frosted amber and arctic musk that hits sharp and lingers deep.', price: '₱259', layer: '/scentico/glacier.webp' },
+  { id: 'amber-noir', name: 'Amber Noir', src: '/scentico/amber-noir.webp', alt: 'Amber Noir', scene: '/scentico/amber-noir-bg.webm', platform: 'linear-gradient(165deg, rgba(120, 96, 62, .65) 0%, rgba(66, 50, 28, .85) 45%, rgba(24, 18, 10, .92) 100%)', badge: 'Bold', gender: 'Men', desc: 'Dark amber and black orchid over spiced resin — confidence after dark.', price: '₱259', layer: '/scentico/amberNoir.webp', layerFramed: true },
+  { id: 'cedar-veil', name: 'Cedar Veil', src: '/scentico/cedar-veil.webp', alt: 'Cedar Veil', scene: '/scentico/cedar-veil-bg.webm', platform: 'linear-gradient(165deg, rgba(120, 138, 118, .6) 0%, rgba(74, 88, 70, .75) 45%, rgba(38, 48, 36, .85) 100%)', badge: 'Fresh', gender: 'Men', desc: 'White cedar and sea salt veiled in vetiver — a quiet forest mist.', price: '₱259' },
 ]
 
 const sceneBottles = bottles.filter(b => b.scene)
@@ -51,10 +51,10 @@ onBeforeUnmount(() => {
 <template>
   <section id="about" class="relative flex min-h-[100svh] items-start justify-center overflow-hidden bg-[#061018]" :class="{ 'scene-open': active }">
     <video ref="videoEl" class="scene-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-      <source src="/scentico/glacier.mp4" type="video/mp4" />
+      <source src="/scentico/glacier.webm" type="video/webm" />
     </video>
     <video v-for="b in sceneBottles" :key="`scene-${b.id}`" class="anime-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="auto" aria-hidden="true" :class="{ 'anime-active': active?.id === b.id }">
-      <source :src="b.scene!" type="video/mp4" />
+      <source :src="b.scene!" type="video/webm" />
     </video>
     <div class="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-[#060A12]/45 transition-opacity duration-1000" :class="active?.scene ? 'opacity-60' : ''"></div>
     <div class="pointer-events-none absolute inset-0 shadow-[inset_0_0_120px_30px_rgba(4,10,18,.3)]"></div>
