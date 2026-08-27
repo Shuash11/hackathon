@@ -1,5 +1,5 @@
 <template>
-  <AdminShell>
+  <UserShell>
     <slot />
-  </AdminShell>
+  </UserShell>
 </template>

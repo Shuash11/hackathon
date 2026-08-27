@@ -7,16 +7,26 @@
   :focus-visible { @apply outline-none ring-2 ring-brand-500 ring-offset-2; }
 }
 
-html { scroll-behavior: smooth; scrollbar-color: #2A4A6B #0B0D12; scrollbar-width: thin; }
+html { scroll-behavior: smooth; scrollbar-color: #C6CBD6 #F5F6FA; scrollbar-width: thin; }
 
-::selection { background: #E39B6B; color: #2A1810; }
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #0B0D12; }
-::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #2A4A6B 0%, #1B3C5E 100%); border-radius: 999px; border: 1px solid rgba(178, 205, 233, .18); }
-::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #3A5A7C 0%, #2A4A6B 100%); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #F5F6FA; }
+::-webkit-scrollbar-thumb { background: #C6CBD6; border-radius: 999px; border: 2px solid #F5F6FA; }
+::-webkit-scrollbar-thumb:hover { background: #AEB4C2; }
 
+/* Landing page keeps its own dark cinematic scrollbar */
 html:has(.scentico-page) { scrollbar-color: #2A4A6B #0B0D12; }
-.scentico-page::-webkit-scrollbar-track { background: #0B0D12; }
+html:has(.scentico-page)::-webkit-scrollbar { width: 8px; height: 8px; }
+html:has(.scentico-page)::-webkit-scrollbar-track { background: #0B0D12; }
+html:has(.scentico-page)::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #2A4A6B 0%, #1B3C5E 100%); border-radius: 999px; border: 1px solid rgba(178, 205, 233, .18); }
+html:has(.scentico-page)::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, #3A5A7C 0%, #2A4A6B 100%); }
+
+/* Compact light scrollbar for modals & app panes */
+.nice-scroll { scrollbar-width: thin; scrollbar-color: #D6D9E0 transparent; }
+.nice-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+.nice-scroll::-webkit-scrollbar-track { background: transparent; }
+.nice-scroll::-webkit-scrollbar-thumb { background: #D6D9E0; border-radius: 999px; }
+.nice-scroll::-webkit-scrollbar-thumb:hover { background: #B8BDC9; }
 
 .scentico-page :focus-visible { outline: 2px solid #B8863B; outline-offset: 3px; box-shadow: none; }
 .scentico-page .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.16,.84,.44,1), transform .8s cubic-bezier(.16,.84,.44,1); }
