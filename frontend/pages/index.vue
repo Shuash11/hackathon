@@ -23,7 +23,7 @@ onMounted(() => {
 <template>
   <div ref="page" class="scentico-page min-h-screen overflow-x-hidden bg-cream font-body leading-relaxed text-espresso antialiased">
     <ScenticoHeader @open-login="loginOpen = true" />
-    <main><ScenticoHero /><ScenticoAbout @open-login="loginOpen = true" /><ScenticoPromoGallery /><ScenticoContact /></main>
+    <main><ScenticoHero /><ScenticoAbout @open-login="loginOpen = true" /></main>
     <ScenticoFooter @open-login="loginOpen = true" />
     <ScenticoLoginModal v-model="loginOpen" />
   </div>

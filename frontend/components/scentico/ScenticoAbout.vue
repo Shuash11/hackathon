@@ -3,6 +3,32 @@ const word = 'VARIANTS'
 const letters = word.split('')
 
 const emit = defineEmits<{ 'open-login': [] }>()
+const promoOpen = ref(false)
+function openPromo(): void {
+  promoOpen.value = true
+}
+function claimPromo(): void {
+  promoOpen.value = false
+  emit('open-login')
+}
+
+// Perf: stop decoding the heavy WebMs when the section is off-screen
+const sectionEl = ref<HTMLElement | null>(null)
+let videoObserver: IntersectionObserver | undefined
+onMounted(() => {
+  if (!('IntersectionObserver' in window)) return
+  videoObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      const videos = (sectionEl.value as HTMLElement).querySelectorAll('video')
+      videos.forEach(video => {
+        if (entry.isIntersecting) void video.play().catch(() => {})
+        else video.pause()
+      })
+    }
+  }, { threshold: 0.02 })
+  if (sectionEl.value) videoObserver.observe(sectionEl.value)
+})
+onBeforeUnmount(() => videoObserver?.disconnect())
 
 const bottles = [
   { id: 'velvet-rose', name: 'Velvet Rose', src: '/scentico/velvet-rose.webp', alt: 'Velvet Rose', scene: '/scentico/velvet-rose-bg.webm', platform: 'linear-gradient(165deg, rgba(196, 128, 132, .65) 0%, rgba(122, 62, 66, .8) 45%, rgba(56, 24, 28, .9) 100%)', badge: 'New', gender: 'Women', desc: 'A velvety rose heart wrapped in soft musk — bold yet effortless.', price: '₱259', layer: '/scentico/realvelvet.webp' },
@@ -49,12 +75,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section id="about" class="relative flex min-h-[100svh] items-start justify-center overflow-hidden bg-[#061018]" :class="{ 'scene-open': active }">
+  <section ref="sectionEl" id="about" class="relative flex min-h-[100svh] items-start justify-center overflow-hidden bg-[#061018]" :class="{ 'scene-open': active }">
     <video ref="videoEl" class="scene-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="auto" aria-hidden="true">
       <source src="/scentico/glacier.webm" type="video/webm" />
     </video>
-    <video v-for="b in sceneBottles" :key="`scene-${b.id}`" class="anime-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="auto" aria-hidden="true" :class="{ 'anime-active': active?.id === b.id }">
-      <source :src="b.scene!" type="video/webm" />
+    <video v-if="active" :key="`anime-${active.id}`" class="anime-video absolute inset-0 h-full w-full object-cover anime-active" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source :src="active.scene!" type="video/webm" />
     </video>
     <div class="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-[#060A12]/45 transition-opacity duration-1000" :class="active?.scene ? 'opacity-60' : ''"></div>
     <div class="pointer-events-none absolute inset-0 shadow-[inset_0_0_120px_30px_rgba(4,10,18,.3)]"></div>
@@ -65,9 +91,9 @@ onBeforeUnmount(() => {
       </h2>
       <div class="variant-platform mt-2 h-8 w-[min(64vw,560px)]" aria-hidden="true"></div>
 
-      <button class="variant-promo group" type="button" @click="emit('open-login')" aria-label="Get 15% off your first bottle">
+      <button class="variant-promo group" type="button" @click="openPromo" aria-label="See the 2-for-529 bundle">
         <span class="variant-promo-tag">Promo</span>
-        <span class="variant-promo-text">First bottle gets <strong>15% off</strong> — small batch, slow blended.</span>
+        <span class="variant-promo-text">Buy 2 perfumes for <strong>₱529</strong> — flash bundle, free shipping.</span>
         <span class="variant-promo-arrow" aria-hidden="true">
           <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </span>
@@ -121,9 +147,9 @@ onBeforeUnmount(() => {
                   <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </button>
               </div>
-              <button class="variant-promo variant-promo--panel group" type="button" @click="emit('open-login')" aria-label="Get 15% off your first bottle">
+              <button class="variant-promo variant-promo--panel group" type="button" @click="openPromo" aria-label="See the 2-for-529 bundle">
                 <span class="variant-promo-tag">Promo</span>
-                <span class="variant-promo-text">First bottle gets <strong>15% off</strong> — small batch, slow blended.</span>
+                <span class="variant-promo-text">Buy 2 perfumes for <strong>₱529</strong> — flash bundle, free shipping.</span>
                 <span class="variant-promo-arrow" aria-hidden="true">
                   <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </span>
@@ -136,6 +162,7 @@ onBeforeUnmount(() => {
         </button>
       </div>
     </Transition>
+    <ScenticoPromoModal v-model="promoOpen" @claim="claimPromo" />
   </section>
 </template>
 
@@ -373,31 +400,6 @@ onBeforeUnmount(() => {
   border-color: rgba(255, 255, 255, .6);
   background: rgba(255, 255, 255, .24);
   transform: translateY(-2px);
-}
-
-@property --promo-angle {
-  syntax: '<angle>';
-  inherits: false;
-  initial-value: 0deg;
-}
-
-.variant-promo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  padding: 3px;
-  pointer-events: none;
-  filter: drop-shadow(0 0 8px rgba(180, 20, 48, 1));
-  background: conic-gradient(from var(--promo-angle), rgba(124, 18, 40, 0) 0deg, #9c1530 28deg, #e06a85 50deg, #9c1530 78deg, rgba(124, 18, 40, 0) 140deg, rgba(124, 18, 40, 0) 360deg);
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: promo-travel 3s linear infinite;
-}
-
-@keyframes promo-travel {
-  to { --promo-angle: 360deg; }
 }
 
 .variant-promo-tag {

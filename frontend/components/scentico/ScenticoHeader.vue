@@ -8,8 +8,7 @@ useScenticoBodyLock(isMenuOpen)
 
 const links = [
   { href: '#home', label: 'Home' },
-  { href: '#about', label: 'About' },
-  { href: '#products', label: 'Products' },
+  { href: '#about', label: 'Products' },
   { href: '#contact', label: 'Contact' },
 ]
 
