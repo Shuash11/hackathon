@@ -65,7 +65,15 @@ onBeforeUnmount(() => {
       </h2>
       <div class="variant-platform mt-2 h-8 w-[min(64vw,560px)]" aria-hidden="true"></div>
 
-      <div class="variant-shelf mt-10 md:mt-14" aria-hidden="false">
+      <button class="variant-promo group" type="button" @click="emit('open-login')" aria-label="Get 15% off your first bottle">
+        <span class="variant-promo-tag">Promo</span>
+        <span class="variant-promo-text">First bottle gets <strong>15% off</strong> — small batch, slow blended.</span>
+        <span class="variant-promo-arrow" aria-hidden="true">
+          <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </button>
+
+      <div class="variant-shelf mt-6 md:mt-8" aria-hidden="false">
         <div class="shelf-front">
           <div v-for="(b, bi) in bottles" :key="b.id" class="shelf-bottle" :style="{ '--d': `${0.7 + bi * 0.08}s` }" role="button" tabindex="0" :aria-label="`View ${b.name}`" @click="openScene(b)" @keydown.enter.prevent="openScene(b)">
             <span class="bottle-name" :style="{ '--d': `${1.1 + bi * 0.08}s` }">{{ b.name }}</span>
@@ -113,6 +121,13 @@ onBeforeUnmount(() => {
                   <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </button>
               </div>
+              <button class="variant-promo variant-promo--panel group" type="button" @click="emit('open-login')" aria-label="Get 15% off your first bottle">
+                <span class="variant-promo-tag">Promo</span>
+                <span class="variant-promo-text">First bottle gets <strong>15% off</strong> — small batch, slow blended.</span>
+                <span class="variant-promo-arrow" aria-hidden="true">
+                  <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+              </button>
             </div>
           </div>
         </div>
@@ -307,6 +322,101 @@ onBeforeUnmount(() => {
 @keyframes bottle-stand {
   from { opacity: 0; transform: translateY(26px) scale(.94); filter: blur(6px); }
   to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.variant-promo {
+  margin-top: clamp(18px, 2.6vw, 30px);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: min(92vw, 760px);
+  padding: .8rem .9rem .8rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .4);
+  background: rgba(255, 255, 255, .16);
+  color: rgba(255, 255, 255, .92);
+  text-align: left;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  transition: border-color .3s ease, background-color .3s ease, transform .3s ease;
+  animation: promo-in .7s cubic-bezier(.22, 1, .36, 1) backwards;
+  animation-delay: 1.4s;
+}
+
+.variant-promo--panel {
+  width: 100%;
+  margin-top: 1.1rem;
+  gap: .6rem;
+  padding: .5rem .6rem .5rem .85rem;
+  border-color: rgba(255, 255, 255, .45);
+  background: rgba(255, 255, 255, .18);
+  animation: none;
+}
+
+.variant-promo--panel .variant-promo-text {
+  font-size: .8rem;
+}
+
+.variant-promo--panel .variant-promo-tag {
+  padding: .28rem .6rem;
+  font-size: .55rem;
+}
+
+.variant-promo--panel .variant-promo-arrow {
+  width: 28px;
+  height: 28px;
+}
+
+.variant-promo:hover {
+  border-color: rgba(255, 255, 255, .6);
+  background: rgba(255, 255, 255, .24);
+  transform: translateY(-2px);
+}
+
+.variant-promo-tag {
+  flex: none;
+  font-size: .6rem;
+  font-weight: 800;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #0B121E;
+  background: linear-gradient(180deg, #E7C48C, #D4A857);
+  padding: .35rem .7rem;
+  border-radius: 999px;
+}
+
+.variant-promo-text {
+  flex: 1 1 auto;
+  font-size: clamp(.82rem, 1.4vw, .98rem);
+  line-height: 1.3;
+}
+
+.variant-promo-text strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.variant-promo-arrow {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, .22);
+  color: #fff;
+  transition: background-color .3s ease, border-color .3s ease;
+}
+
+.variant-promo:hover .variant-promo-arrow {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .45);
+}
+
+@keyframes promo-in {
+  from { opacity: 0; transform: translateY(18px); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
 .scene-video {
