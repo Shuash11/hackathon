@@ -5,10 +5,10 @@ const letters = word.split('')
 const emit = defineEmits<{ 'open-login': [] }>()
 
 const bottles = [
-  { id: 'velvet-rose', name: 'Velvet Rose', src: '/scentico/velvet-rose.png', alt: 'Velvet Rose', scene: '/scentico/velvet-rose-bg.mp4', platform: 'linear-gradient(165deg, rgba(196, 128, 132, .65) 0%, rgba(122, 62, 66, .8) 45%, rgba(56, 24, 28, .9) 100%)', badge: 'New', gender: 'Men', desc: 'A velvety rose heart wrapped in soft musk — bold yet effortless.', price: '₱259' },
+  { id: 'velvet-rose', name: 'Velvet Rose', src: '/scentico/velvet-rose.png', alt: 'Velvet Rose', scene: '/scentico/velvet-rose-bg.mp4', platform: 'linear-gradient(165deg, rgba(196, 128, 132, .65) 0%, rgba(122, 62, 66, .8) 45%, rgba(56, 24, 28, .9) 100%)', badge: 'New', gender: 'Women', desc: 'A velvety rose heart wrapped in soft musk — bold yet effortless.', price: '₱259', layer: '/scentico/realvelvet.png' },
   { id: 'smoke-vanilla', name: 'Smoked Vanilla', src: '/scentico/smoke-vanilla.png', alt: 'Smoked Vanilla', scene: '/scentico/smoke-vanilla-bg.mp4', platform: 'linear-gradient(165deg, rgba(214, 178, 128, .75) 0%, rgba(146, 104, 58, .8) 45%, rgba(74, 48, 22, .85) 100%)', badge: 'Cozy', gender: 'Men', desc: 'Warm smoked vanilla over cedarwood — like firelight in a bottle.', price: '₱259' },
-  { id: 'glace-noir', name: 'Glacé Noir', src: '/scentico/asset1.png', alt: 'Glacé Noir', scene: '/scentico/glacier-anime.mp4', platform: 'linear-gradient(165deg, rgba(190, 228, 250, .55) 0%, rgba(120, 180, 215, .4) 45%, rgba(60, 110, 150, .55) 100%)', badge: 'Best Seller', gender: 'Men', desc: 'A cold, strong scent — frosted amber and arctic musk that hits sharp and lingers deep.', price: '₱259' },
-  { id: 'amber-noir', name: 'Amber Noir', src: '/scentico/amber-noir.png', alt: 'Amber Noir', scene: '/scentico/amber-noir-bg.mp4', platform: 'linear-gradient(165deg, rgba(120, 96, 62, .65) 0%, rgba(66, 50, 28, .85) 45%, rgba(24, 18, 10, .92) 100%)', badge: 'Bold', gender: 'Men', desc: 'Dark amber and black orchid over spiced resin — confidence after dark.', price: '₱259', layer: '/scentico/amberNoir.png' },
+  { id: 'glace-noir', name: 'Glacé Noir', src: '/scentico/asset1.png', alt: 'Glacé Noir', scene: '/scentico/glacier-anime.mp4', platform: 'linear-gradient(165deg, rgba(190, 228, 250, .55) 0%, rgba(120, 180, 215, .4) 45%, rgba(60, 110, 150, .55) 100%)', badge: 'Best Seller', gender: 'Men', desc: 'A cold, strong scent — frosted amber and arctic musk that hits sharp and lingers deep.', price: '₱259', layer: '/scentico/glacier.png' },
+  { id: 'amber-noir', name: 'Amber Noir', src: '/scentico/amber-noir.png', alt: 'Amber Noir', scene: '/scentico/amber-noir-bg.mp4', platform: 'linear-gradient(165deg, rgba(120, 96, 62, .65) 0%, rgba(66, 50, 28, .85) 45%, rgba(24, 18, 10, .92) 100%)', badge: 'Bold', gender: 'Men', desc: 'Dark amber and black orchid over spiced resin — confidence after dark.', price: '₱259', layer: '/scentico/amberNoir.png', layerFramed: true },
   { id: 'cedar-veil', name: 'Cedar Veil', src: '/scentico/cedar-veil.png', alt: 'Cedar Veil', scene: '/scentico/cedar-veil-bg.mp4', platform: 'linear-gradient(165deg, rgba(120, 138, 118, .6) 0%, rgba(74, 88, 70, .75) 45%, rgba(38, 48, 36, .85) 100%)', badge: 'Fresh', gender: 'Men', desc: 'White cedar and sea salt veiled in vetiver — a quiet forest mist.', price: '₱259' },
 ]
 
@@ -83,7 +83,7 @@ onBeforeUnmount(() => {
         <div class="scene-inner relative flex h-full w-full items-center justify-center gap-[3vw] md:gap-[4vw] px-[4vw] md:px-[5vw]">
           <div class="scene-bottle-wrap relative flex h-[58vh] w-[min(38vw,560px)] items-end justify-center" :class="{ 'has-layer': active.layer }">
             <div class="scene-platform" aria-hidden="true" :style="{ background: active.platform }"></div>
-            <img v-if="active.layer" :src="active.layer" alt="" class="scene-layer-img" draggable="false" aria-hidden="true" />
+            <img v-if="active.layer" :src="active.layer" alt="" class="scene-layer-img" :class="{ 'framed': active.layerFramed }" draggable="false" aria-hidden="true" />
             <img :src="active.src" :alt="active.alt" class="scene-bottle-img" draggable="false" />
             <div class="scene-bottle-shadow" aria-hidden="true"></div>
           </div>
@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
             <h3 ref="titleRef" class="scene-title relative z-10 -mb-5 flex w-max flex-nowrap items-baseline gap-[.05em] overflow-visible whitespace-nowrap font-display text-[clamp(2.1rem,4.4vw,4rem)] font-extrabold uppercase leading-[.9] tracking-[.03em] md:-mb-7">
               <span v-for="(ch, ci) in active.name.toUpperCase().split('')" :key="`t${ci}`" class="scene-title-letter" :data-char="ch === ' ' ? '\u00A0' : ch" :class="ch === ' ' ? 'w-[.3em]' : ''" :style="{ '--i': ci }">{{ ch === ' ' ? '\u00A0' : ch }}</span>
             </h3>
-            <div ref="panelRef" class="scene-panel w-full rounded-[24px] border border-white/15 bg-white/[.04] p-8 pt-10 text-left backdrop-blur-xl md:p-10 md:pt-12">
+            <div ref="panelRef" class="scene-panel w-full rounded-[24px] border border-white/15 bg-white/[.04] p-8 pt-10 text-left backdrop-blur-xl md:p-10 md:pt-12" :class="{ 'panel-dark': ['glace-noir', 'velvet-rose', 'smoke-vanilla'].includes(active?.id ?? '') }">
               <div class="flex flex-wrap items-center gap-2">
                 <span class="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-3.5 py-1.5 text-[.66rem] font-bold uppercase tracking-[.2em] text-white shadow-[0_0_14px_rgba(221,234,247,.3)]">
                   <svg class="h-3 w-3 fill-gold-light" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.2 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg>
@@ -355,14 +355,15 @@ onBeforeUnmount(() => {
   height: 76%;
   width: auto;
   object-fit: contain;
-  border-radius: 22px;
-  border: 1px solid rgba(231, 196, 140, .35);
   transform-origin: bottom center;
   transform: rotate(-7deg) translateX(-6%);
   filter: drop-shadow(0 18px 26px rgba(2, 8, 14, .5));
   pointer-events: none;
-  animation: layer-in 1s cubic-bezier(.22, 1, .36, 1) backwards;
-  animation-delay: .3s;
+}
+
+.scene-layer-img.framed {
+  border-radius: 22px;
+  border: 1px solid rgba(231, 196, 140, .35);
 }
 
 .scene-enter-active .scene-layer-img { animation: layer-in-stand 1s cubic-bezier(.22, 1, .36, 1) backwards; animation-delay: .3s; }
@@ -434,6 +435,10 @@ onBeforeUnmount(() => {
 
 .scene-panel {
   box-shadow: 0 30px 70px -20px rgba(0, 0, 0, .6), 0 10px 30px -10px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+.scene-panel.panel-dark {
+  background: rgba(16, 30, 44, .4);
 }
 
 .scene-title-letter {
