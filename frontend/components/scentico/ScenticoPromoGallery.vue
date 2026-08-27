@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const images = [
-  '1.jpg', '2.jpg', '3.png', '4.png', '5.png',
-  '7.jpg', '8.png', '9.png', '10.png', '11.jpg',
-  '12.jpg', '13.png', '14.png',
+  '1.webp', '2.webp', '3.webp', '4.webp', '5.webp',
+  '7.webp', '8.webp', '9.webp', '10.webp', '11.webp',
+  '12.webp', '13.webp', '14.webp', '15.webp',
 ]
 </script>
 
