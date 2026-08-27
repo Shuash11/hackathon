@@ -85,7 +85,7 @@ class RefreshView(APIView):
 
 @method_decorator(csrf_protect, name="dispatch")
 class LogoutView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     cookie_service_class = JWTCookieService
 
     def post(self, request):

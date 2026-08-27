@@ -5,6 +5,7 @@ const emit = defineEmits<{ close: [] }>()
 const route = useRoute()
 const { signOut, auth } = useAuth()
 const signingOut = ref(false)
+const showLogoutConfirm = ref(false)
 
 const isAdmin = computed(() => auth.user?.role === 'admin')
 
@@ -25,7 +26,11 @@ function isActive(to: string): boolean {
   return route.path.startsWith(to)
 }
 
-async function handleSignOut(): Promise<void> {
+function handleSignOut(): void {
+  showLogoutConfirm.value = true
+}
+async function confirmSignOut(): Promise<void> {
+  showLogoutConfirm.value = false
   signingOut.value = true
   try {
     await signOut()
@@ -95,4 +100,5 @@ async function handleSignOut(): Promise<void> {
       <p class="mt-2 px-3 text-[10px] leading-4 text-white/25">Scentico operations v1.0</p>
     </div>
   </aside>
+  <ScenticoLogoutConfirm v-model="showLogoutConfirm" @confirm="confirmSignOut" />
 </template>

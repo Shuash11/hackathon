@@ -16,9 +16,22 @@ export function useAuth() {
 
   async function signOut(): Promise<void> {
     try {
+      const nuxtApp = useNuxtApp()
+      const supabase: unknown = (nuxtApp as unknown as Record<string, unknown>).$supabase
+      if (supabase && typeof (supabase as { auth?: { signOut?: () => Promise<unknown> } }).auth?.signOut === 'function') {
+        try {
+          await (supabase as { auth: { signOut: () => Promise<unknown> } }).auth.signOut()
+        } catch {}
+      }
+    } catch {}
+    try {
       await api.request('/auth/logout/', { method: 'POST' })
-    } finally {
-      auth.clear()
+    } catch {}
+    auth.clear()
+    if (import.meta.client) {
+      try {
+        localStorage.removeItem('sb-access-token')
+      } catch {}
     }
   }
 

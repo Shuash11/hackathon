@@ -5,6 +5,7 @@ const { auth, signOut } = useAuth()
 const { $supabase } = useNuxtApp()
 const errorMessage = ref('')
 const submitting = ref(false)
+const showLogoutConfirm = ref(false)
 const isOpen = computed(() => props.modelValue)
 
 useScenticoBodyLock(isOpen)
@@ -28,8 +29,13 @@ async function signInWithGoogle(): Promise<void> {
   }
 }
 
-async function handleSignOut(): Promise<void> {
+function handleSignOut(): void {
+  showLogoutConfirm.value = true
+}
+async function confirmSignOut(): Promise<void> {
+  showLogoutConfirm.value = false
   await signOut()
+  close()
 }
 
 async function goToDashboard(): Promise<void> {
@@ -99,6 +105,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', handleEscape))
           {{ submitting ? 'Redirecting...' : 'Continue with Google' }}
         </button>
       </div>
-    </section>
-  </div>
+      </section>
+    </div>
+  <ScenticoLogoutConfirm v-model="showLogoutConfirm" @confirm="confirmSignOut" />
 </template>

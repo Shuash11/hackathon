@@ -1,7 +1,11 @@
 <script setup lang="ts">
 const { auth, signOut } = useAuth()
-
-async function handleSignOut(): Promise<void> {
+const showLogoutConfirm = ref(false)
+function handleSignOut(): void {
+  showLogoutConfirm.value = true
+}
+async function confirmSignOut(): Promise<void> {
+  showLogoutConfirm.value = false
   await signOut()
   await navigateTo('/')
 }
@@ -20,4 +24,5 @@ async function handleSignOut(): Promise<void> {
       </div>
     </nav>
   </header>
+  <ScenticoLogoutConfirm v-model="showLogoutConfirm" @confirm="confirmSignOut" />
 </template>

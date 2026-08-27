@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits<{ openLogin: [] }>()
 const isMenuOpen = ref(false)
+const showLogoutConfirm = ref(false)
 const { auth, loadCurrentUser, signOut } = useAuth()
 
 useScenticoBodyLock(isMenuOpen)
@@ -21,8 +22,13 @@ function openLogin(): void {
   emit('openLogin')
 }
 
-async function handleSignOut(): Promise<void> {
+function handleSignOut(): void {
+  showLogoutConfirm.value = true
+}
+async function confirmSignOut(): Promise<void> {
+  showLogoutConfirm.value = false
   await signOut()
+  await navigateTo('/')
 }
 
 function handleEscape(event: KeyboardEvent): void {
@@ -57,6 +63,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', handleEscape))
     <button v-else type="button" class="mt-2 inline-flex rounded-full border border-white/30 px-8 py-3.5 text-sm font-bold text-white" @click="openLogin">Sign in with Google</button>
     <button v-if="auth.isAuthenticated" type="button" class="text-sm text-white/60 underline" @click="handleSignOut">Sign out</button>
   </nav>
+  <ScenticoLogoutConfirm v-model="showLogoutConfirm" @confirm="confirmSignOut" />
 </template>
 
 <style scoped>
