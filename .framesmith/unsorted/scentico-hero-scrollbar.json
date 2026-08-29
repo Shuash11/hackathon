@@ -1,0 +1,18 @@
+{
+  "components": {},
+  "createdAt": "2026-08-26T01:53:41.631Z",
+  "id": "iA3O-DgGL3",
+  "lastModified": "2026-08-26T01:53:41.631Z",
+  "name": "scentico-hero-scrollbar",
+  "projectId": "default-project",
+  "root": {
+    "children": [],
+    "fill": "#FFFFFF",
+    "height": 900,
+    "id": "ijpFNNeb9V",
+    "name": "Document",
+    "type": "document",
+    "width": 1440
+  },
+  "variables": {}
+}

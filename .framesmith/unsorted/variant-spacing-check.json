@@ -1,0 +1,78 @@
+{
+  "components": {},
+  "createdAt": "2026-08-26T03:52:47.891Z",
+  "id": "hEbur-h2ka",
+  "lastModified": "2026-08-26T03:52:47.927Z",
+  "metadata": {
+    "provenance": {
+      "at": "2026-08-26T03:52:47.926Z",
+      "importedFrom": "html"
+    }
+  },
+  "name": "variant-spacing-check",
+  "projectId": "default-project",
+  "root": {
+    "children": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "id": "imp-frame-1",
+                "type": "frame",
+                "width": "50%"
+              },
+              {
+                "alignItems": "center",
+                "children": [
+                  {
+                    "color": "rgb(255, 255, 255)",
+                    "content": "VARIANT",
+                    "fontFamily": "Fraunces, serif",
+                    "fontSize": 104,
+                    "fontWeight": 800,
+                    "id": "imp-text-2",
+                    "letterSpacing": 12.48,
+                    "lineHeight": "104px",
+                    "textAlign": "center",
+                    "type": "text"
+                  },
+                  {
+                    "id": "imp-frame-3",
+                    "type": "frame"
+                  }
+                ],
+                "id": "imp-frame-4",
+                "layout": "vertical",
+                "padding": [
+                  0,
+                  16
+                ],
+                "type": "frame",
+                "width": "50%"
+              }
+            ],
+            "id": "imp-clusterrow-5",
+            "layout": "horizontal",
+            "name": "Cluster row",
+            "type": "frame",
+            "width": "100%"
+          }
+        ],
+        "fill": "rgb(6, 16, 24)",
+        "id": "imp-frame-6",
+        "layout": "vertical",
+        "overflow": "hidden",
+        "type": "frame",
+        "width": "100%"
+      }
+    ],
+    "fill": "#FFFFFF",
+    "height": 900,
+    "id": "g5tzC6gjsH",
+    "name": "Document",
+    "type": "document",
+    "width": 1440
+  },
+  "variables": {}
+}

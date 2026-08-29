@@ -1,0 +1,18 @@
+{
+  "boundAt": "2026-08-26T01:52:09.861Z",
+  "projects": [
+    {
+      "dir": "foundations",
+      "id": "repo-proj-nBSBX2ra",
+      "name": "Foundations"
+    },
+    {
+      "dir": "ui",
+      "id": "repo-proj-4y5-ONzN",
+      "name": "UI"
+    }
+  ],
+  "schemaVersion": 1,
+  "workspaceId": "repo-ws-3CL2ZUJU",
+  "workspaceName": "Hackathon"
+}

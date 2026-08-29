@@ -1,0 +1,97 @@
+/* Scentico — supplementary CSS
+   Tailwind (via CDN, configured in index.html) handles almost all layout,
+   spacing, color and responsive styling as utility classes.
+   This file only holds what utilities can't express cleanly:
+   keyframes, base font wiring, scrollbar, selection color, and
+   the reveal-on-scroll / mobile-menu / hover-restart animation hooks. */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+::selection {
+  background: #E39B6B;
+  color: #2A1810;
+}
+
+/* Custom scrollbar, warm-toned to match the brand */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F7E9D7;
+}
+::-webkit-scrollbar-thumb {
+  background: #C97A47;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B8863B;
+}
+
+/* ---------- Keyframes referenced by Tailwind arbitrary animate-[...] utilities ---------- */
+
+/* Gentle drift for the hero's rising scent-trail lines */
+@keyframes drift {
+  0%, 100% { transform: translateY(0) scale(1); opacity: .85; }
+  50%      { transform: translateY(-14px) scale(1.03); opacity: 1; }
+}
+
+/* Dash movement so the scent-trail lines feel like they're flowing upward */
+@keyframes trail {
+  to { stroke-dashoffset: -200; }
+}
+
+/* Diffusion rings on product-card hover, like scent spreading outward */
+@keyframes diffuse {
+  0%   { transform: translateX(-50%) scale(.5); opacity: .6; }
+  100% { transform: translateX(-50%) scale(2.1); opacity: 0; }
+}
+
+/* ---------- Scroll reveal ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .8s cubic-bezier(.16,.84,.44,1), transform .8s cubic-bezier(.16,.84,.44,1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Header scrolled state (toggled by script.js) ---------- */
+header.scrolled {
+  background: rgba(247, 233, 215, .88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px -20px rgba(42, 24, 16, .5);
+}
+
+/* ---------- Mobile hamburger open state (toggled by script.js) ---------- */
+#menuToggle.open .bar-1 { transform: translateY(6px) rotate(45deg); }
+#menuToggle.open .bar-2 { opacity: 0; }
+#menuToggle.open .bar-3 { transform: translateY(-6px) rotate(-45deg); }
+
+/* ---------- Focus visibility ---------- */
+:focus-visible {
+  outline: 2px solid #B8863B;
+  outline-offset: 3px;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "components": {},
+  "createdAt": "2026-08-26T01:53:55.465Z",
+  "id": "VUHjvHb7Eg",
+  "lastModified": "2026-08-26T01:53:55.479Z",
+  "metadata": {
+    "provenance": {
+      "at": "2026-08-26T01:53:55.478Z",
+      "importedFrom": "html"
+    }
+  },
+  "name": "hero-palette-probe",
+  "projectId": "default-project",
+  "root": {
+    "children": [
+      {
+        "alignItems": "center",
+        "children": [
+          {
+            "content": "Scentico",
+            "fontFamily": "Fraunces",
+            "fontSize": 96,
+            "fontWeight": 800,
+            "id": "imp-text-1",
+            "letterSpacing": 11.52,
+            "type": "text"
+          }
+        ],
+        "fill": "rgb(11, 13, 18)",
+        "id": "imp-frame-2",
+        "justifyContent": "center",
+        "layout": "horizontal",
+        "type": "frame",
+        "width": "100%"
+      }
+    ],
+    "fill": "#FFFFFF",
+    "height": 900,
+    "id": "V5gc8coPdu",
+    "name": "Document",
+    "type": "document",
+    "width": 1440
+  },
+  "variables": {}
+}

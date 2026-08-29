@@ -1,0 +1,80 @@
+{
+  "components": {},
+  "createdAt": "2026-08-26T04:03:57.836Z",
+  "id": "mh3EwdKuz1",
+  "lastModified": "2026-08-26T12:06:43.461Z",
+  "metadata": {
+    "provenance": {
+      "at": "2026-08-26T04:03:57.847Z",
+      "importedFrom": "html"
+    }
+  },
+  "name": "variant-shelf-check",
+  "projectId": "repo-proj-4y5-ONzN",
+  "root": {
+    "children": [
+      {
+        "alignItems": "center",
+        "children": [
+          {
+            "cornerRadius": 8,
+            "fill": "#8FA8BC",
+            "height": 420,
+            "id": "jQHXi31Mcl",
+            "type": "rectangle",
+            "width": 260
+          },
+          {
+            "alignItems": "stretch",
+            "children": [
+              {
+                "color": "#ffffff",
+                "content": "SMOKED VANILLA",
+                "fontFamily": "Fraunces",
+                "fontSize": 60,
+                "fontWeight": 800,
+                "id": "8oG1ZHuQuC",
+                "letterSpacing": 2,
+                "textAlign": "left",
+                "type": "text"
+              },
+              {
+                "children": [],
+                "cornerRadius": 24,
+                "fill": "rgba(10,16,24,0.6)",
+                "gap": 14,
+                "height": 360,
+                "id": "6Xke2eSeJK",
+                "layout": "vertical",
+                "padding": 40,
+                "type": "frame",
+                "width": "100%"
+              }
+            ],
+            "fill": "rgba(0,0,0,0)",
+            "height": 420,
+            "id": "_sUO-7sfcn",
+            "layout": "vertical",
+            "type": "frame",
+            "width": 520
+          }
+        ],
+        "fill": "#0E141B",
+        "height": 900,
+        "id": "uh8jI6_O9N",
+        "justifyContent": "spaceBetween",
+        "layout": "horizontal",
+        "padding": 115,
+        "type": "frame",
+        "width": 1440
+      }
+    ],
+    "fill": "#FFFFFF",
+    "height": 900,
+    "id": "oGAaYdlpH5",
+    "name": "Document",
+    "type": "document",
+    "width": 1440
+  },
+  "variables": {}
+}

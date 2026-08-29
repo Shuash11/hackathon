@@ -32,3 +32,4 @@ coverage/
 *.swp
 .DS_Store
 Thumbs.db
+supabase/.temp/
