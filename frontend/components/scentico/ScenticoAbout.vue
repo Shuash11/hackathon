@@ -30,6 +30,9 @@ onMounted(() => {
 })
 onBeforeUnmount(() => videoObserver?.disconnect())
 
+const config = useRuntimeConfig()
+const asset = (p: string) => `${config.app.baseURL}${p.replace(/^\//, '')}`
+
 const bottles = [
   { id: 'velvet-rose', name: 'Velvet Rose', src: '/scentico/velvet-rose.webp', alt: 'Velvet Rose', scene: '/scentico/velvet-rose-bg.webm', platform: 'linear-gradient(165deg, rgba(196, 128, 132, .65) 0%, rgba(122, 62, 66, .8) 45%, rgba(56, 24, 28, .9) 100%)', badge: 'New', gender: 'Women', desc: 'A velvety rose heart wrapped in soft musk — bold yet effortless.', price: '₱259', layer: '/scentico/realvelvet.webp' },
   { id: 'smoke-vanilla', name: 'Smoked Vanilla', src: '/scentico/smoke-vanilla.webp', alt: 'Smoked Vanilla', scene: '/scentico/smoke-vanilla-bg.webm', platform: 'linear-gradient(165deg, rgba(214, 178, 128, .75) 0%, rgba(146, 104, 58, .8) 45%, rgba(74, 48, 22, .85) 100%)', badge: 'Cozy', gender: 'Men / Women', desc: 'Warm smoked vanilla over cedarwood — like firelight in a bottle.', price: '₱259', layer: '/scentico/smoke.webp' },
@@ -77,10 +80,10 @@ onBeforeUnmount(() => {
 <template>
   <section ref="sectionEl" id="about" class="relative flex min-h-[100svh] items-start justify-center overflow-hidden bg-[#061018]" :class="{ 'scene-open': active }">
     <video ref="videoEl" class="scene-video absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-      <source src="/scentico/glacier.webm" type="video/webm" />
+      <source :src="asset('/scentico/glacier.webm')" type="video/webm" />
     </video>
     <video v-if="active" :key="`anime-${active.id}`" class="anime-video absolute inset-0 h-full w-full object-cover anime-active" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-      <source :src="active.scene!" type="video/webm" />
+      <source :src="asset(active.scene!)" type="video/webm" />
     </video>
     <div class="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-[#060A12]/45 transition-opacity duration-1000" :class="active?.scene ? 'opacity-60' : ''"></div>
     <div class="pointer-events-none absolute inset-0 shadow-[inset_0_0_120px_30px_rgba(4,10,18,.3)]"></div>
@@ -103,9 +106,9 @@ onBeforeUnmount(() => {
         <div class="shelf-front">
           <div v-for="(b, bi) in bottles" :key="b.id" class="shelf-bottle" :style="{ '--d': `${0.7 + bi * 0.08}s` }" role="button" tabindex="0" :aria-label="`View ${b.name}`" @click="openScene(b)" @keydown.enter.prevent="openScene(b)">
             <span class="bottle-name" :style="{ '--d': `${1.1 + bi * 0.08}s` }">{{ b.name }}</span>
-            <img :src="b.src" :alt="b.alt" class="bottle-img" draggable="false" />
+            <img :src="asset(b.src)" :alt="b.alt" class="bottle-img" draggable="false" />
             <div class="bottle-shadow"></div>
-            <div class="bottle-reflection" aria-hidden="true"><img :src="b.src" alt="" class="bottle-img" draggable="false" /></div>
+            <div class="bottle-reflection" aria-hidden="true"><img :src="asset(b.src)" alt="" class="bottle-img" draggable="false" /></div>
           </div>
         </div>
         <div class="shelf-ground" aria-hidden="true"></div>
@@ -117,8 +120,8 @@ onBeforeUnmount(() => {
         <div class="scene-inner relative flex h-full w-full items-center justify-center gap-[3vw] md:gap-[4vw] px-[4vw] md:px-[5vw]">
           <div class="scene-bottle-wrap relative flex h-[58vh] w-[min(38vw,560px)] items-end justify-center" :class="{ 'has-layer': active.layer }">
             <div class="scene-platform" aria-hidden="true" :style="{ background: active.platform }"></div>
-            <img v-if="active.layer" :src="active.layer" alt="" class="scene-layer-img" :class="{ 'framed': active.layerFramed }" draggable="false" aria-hidden="true" />
-            <img :src="active.src" :alt="active.alt" class="scene-bottle-img" draggable="false" />
+            <img v-if="active.layer" :src="asset(active.layer)" alt="" class="scene-layer-img" :class="{ 'framed': active.layerFramed }" draggable="false" aria-hidden="true" />
+            <img :src="asset(active.src)" :alt="active.alt" class="scene-bottle-img" draggable="false" />
             <div class="scene-bottle-shadow" aria-hidden="true"></div>
           </div>
           <div class="scene-right relative flex w-max max-w-[92vw] flex-col items-stretch self-center">
