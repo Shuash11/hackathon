@@ -20,7 +20,7 @@ jobs:
           node-version: 22
       - name: Install frontend
         working-directory: frontend
-        run: npm ci
+        run: npm install
       - name: Build (static)
         working-directory: frontend
         env:
